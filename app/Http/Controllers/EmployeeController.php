@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Employee;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
+use Inertia\Inertia;
 
 class EmployeeController extends Controller
 {
@@ -14,10 +15,18 @@ class EmployeeController extends Controller
     public function index()
     {
         $employees = Employee::all();
-        return response()->json([
-            'resource' => 'employee',
-            'message' => 'Success',
-            'data' => $employees
+        return Inertia::render('Employee/Index', [
+            'employees' => $employees
+        ]);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        return Inertia::render('Employee/Create', [
+            'roles' => Employee::ROLES // Untuk dropdown role di form
         ]);
     }
 
@@ -26,12 +35,8 @@ class EmployeeController extends Controller
      */
     public function store(StoreEmployeeRequest $request)
     {
-        $employee = Employee::create($request->validated());
-        return response()->json([
-            'resource' => 'employee',
-            'message' => 'Created',
-            'data' => $employee
-        ], 201);
+        Employee::create($request->validated());
+        return redirect()->route('employees.index')->with('success', 'Employee created!');
     }
 
     /**
@@ -39,10 +44,19 @@ class EmployeeController extends Controller
      */
     public function show(Employee $employee)
     {
-        return response()->json([
-            'resource' => 'employee',
-            'message' => 'Success',
-            'data' => $employee
+        return Inertia::render('Employee/Show', [
+            'employee' => $employee
+        ]);
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(Employee $employee)
+    {
+        return Inertia::render('Employee/Edit', [
+            'employee' => $employee,
+            'roles' => Employee::ROLES // Untuk dropdown role saat edit
         ]);
     }
 
@@ -52,11 +66,7 @@ class EmployeeController extends Controller
     public function update(UpdateEmployeeRequest $request, Employee $employee)
     {
         $employee->update($request->validated());
-        return response()->json([
-            'resource' => 'employee',
-            'message' => 'Updated',
-            'data' => $employee
-        ]);
+        return redirect()->route('employees.index')->with('success', 'Employee updated!');
     }
 
     /**
@@ -65,21 +75,6 @@ class EmployeeController extends Controller
     public function destroy(Employee $employee)
     {
         $employee->delete();
-        return response()->json([
-            'resource' => 'employee',
-            'message' => 'Deleted'
-        ]);
-    }
-
-    /**
-     * Optionally, to send roles if needed (misal untuk form).
-     */
-    public function roles()
-    {
-        return response()->json([
-            'resource' => 'employee',
-            'message' => 'Success',
-            'roles' => Employee::ROLES
-        ]);
+        return redirect()->route('employees.index')->with('success', 'Employee deleted!');
     }
 }

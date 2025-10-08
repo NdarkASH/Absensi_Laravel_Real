@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attendance;
 use App\Http\Requests\StoreAttendanceRequest;
 use App\Http\Requests\UpdateAttendanceRequest;
+use Inertia\Inertia;
 
 class AttendanceController extends Controller
 {
@@ -13,7 +14,10 @@ class AttendanceController extends Controller
      */
     public function index()
     {
-        //
+        $attendances = Attendance::all();
+        return Inertia::render('Attendance/Index', [
+            'attendances' => $attendances,
+        ]);
     }
 
     /**
@@ -21,7 +25,7 @@ class AttendanceController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Attendance/Create');
     }
 
     /**
@@ -29,7 +33,8 @@ class AttendanceController extends Controller
      */
     public function store(StoreAttendanceRequest $request)
     {
-        //
+        Attendance::create($request->validated());
+        return redirect()->route('attendances.index')->with('success', 'Attendance created!');
     }
 
     /**
@@ -37,7 +42,9 @@ class AttendanceController extends Controller
      */
     public function show(Attendance $attendance)
     {
-        //
+        return Inertia::render('Attendance/Show', [
+            'attendance' => $attendance,
+        ]);
     }
 
     /**
@@ -45,7 +52,9 @@ class AttendanceController extends Controller
      */
     public function edit(Attendance $attendance)
     {
-        //
+        return Inertia::render('Attendance/Edit', [
+            'attendance' => $attendance,
+        ]);
     }
 
     /**
@@ -53,7 +62,8 @@ class AttendanceController extends Controller
      */
     public function update(UpdateAttendanceRequest $request, Attendance $attendance)
     {
-        //
+        $attendance->update($request->validated());
+        return redirect()->route('attendances.index')->with('success', 'Attendance updated!');
     }
 
     /**
@@ -61,6 +71,7 @@ class AttendanceController extends Controller
      */
     public function destroy(Attendance $attendance)
     {
-        //
+        $attendance->delete();
+        return redirect()->route('attendances.index')->with('success', 'Attendance deleted!');
     }
 }

@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Employee;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Employee>
@@ -17,7 +19,11 @@ class EmployeeFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'id' => (string) Str::uuid(),
+            'username' => $this->faker->unique()->userName(),
+            'firstname' => $this->faker->firstName(),
+            'lastname' => $this->faker->lastName(),
+            'role' => $this->faker->randomElement(Employee::ROLES),
         ];
     }
 }
