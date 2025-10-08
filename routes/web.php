@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\EmployeeController;
+use App\Models\Attendance;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -41,6 +43,8 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::resource('employees', EmployeeController::class);
+Route::resource('attendance', AttendanceController::class);
+
 
 
 require __DIR__.'/auth.php';
