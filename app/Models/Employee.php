@@ -22,6 +22,6 @@ class Employee extends Model
     ];
 
     protected $fillable = [
-        'id', 'username', 'firstname', 'lastname', 'role'
+        'uuid', 'username', 'firstname', 'lastname', 'role'
     ];
 }

@@ -6,15 +6,19 @@ use App\Models\Employee;
 use App\Http\Requests\StoreEmployeeRequest;
 use App\Http\Requests\UpdateEmployeeRequest;
 use Inertia\Inertia;
+use Illuminate\Http\Request;
 
 class EmployeeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $employees = Employee::all();
+        $perPage = $request->input('perPage', 10);
+        $employees = Employee::select(['uuid', 'username', 'firstname', 'lastname', 'role'])
+            ->paginate($perPage)
+            ->withQueryString();
         return Inertia::render('Employee/Index', [
             'employees' => $employees
         ]);
@@ -26,7 +30,7 @@ class EmployeeController extends Controller
     public function create()
     {
         return Inertia::render('Employee/Create', [
-            'roles' => Employee::ROLES 
+            'roles' => Employee::ROLES
         ]);
     }
 

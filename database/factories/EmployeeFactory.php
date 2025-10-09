@@ -19,7 +19,7 @@ class EmployeeFactory extends Factory
     public function definition(): array
     {
         return [
-            'id' => (string) Str::uuid(),
+            'uuid' => (string) Str::uuid(),
             'username' => $this->faker->unique()->userName(),
             'firstname' => $this->faker->firstName(),
             'lastname' => $this->faker->lastName(),
