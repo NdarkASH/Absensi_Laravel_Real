@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attendance;
 use App\Http\Requests\StoreAttendanceRequest;
 use App\Http\Requests\UpdateAttendanceRequest;
-use App\Models\Employee;
+use Illuminate\Http\Client\Request;
 use Inertia\Inertia;
 
 class AttendanceController extends Controller
@@ -13,9 +13,12 @@ class AttendanceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $attendance = Attendance::all();
+        $perPage = $request->input('perPage', 10);
+        $attendance = Attendance::with('employee:id,username')
+         ->paginate($perPage)
+         ->withQueryString();
         return Inertia::render('Attendance/Index', [
             'attendance' => $attendance
         ]);

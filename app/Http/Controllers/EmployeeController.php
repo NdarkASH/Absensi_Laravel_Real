@@ -26,7 +26,7 @@ class EmployeeController extends Controller
     public function create()
     {
         return Inertia::render('Employee/Create', [
-            'roles' => Employee::ROLES // Untuk dropdown role di form
+            'roles' => Employee::ROLES 
         ]);
     }
 
