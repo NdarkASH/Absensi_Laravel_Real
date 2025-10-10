@@ -1,36 +1,18 @@
 <?php
 
-use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
-use App\Http\Controllers\EmployeeController;
-use App\Models\Attendance;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('welcome');
+    return Inertia::render('Welcome', [
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'laravelVersion' => Application::VERSION,
+        'phpVersion' => PHP_VERSION,
+    ]);
 });
-
-Route::get('/pricing', function () {
-    return Inertia::render('pricing');
-});
-
-Route::get('/docs', function () {
-    return Inertia::render('docs');
-});
-
-Route::get('/blog', function () {
-    return Inertia::render('blog');
-});
-
-Route::get('/about', function () {
-    return Inertia::render('about');
-});
-
-
-
-
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
@@ -41,10 +23,5 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-Route::resource('employees', EmployeeController::class);
-Route::resource('attendance', AttendanceController::class);
-
-
 
 require __DIR__.'/auth.php';

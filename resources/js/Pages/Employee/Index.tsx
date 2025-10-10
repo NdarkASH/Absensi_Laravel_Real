@@ -1,20 +1,20 @@
-import { router, Link, Head } from "@inertiajs/react";
 import {
-    Table,
-    TableHeader,
-    TableColumn,
-    TableBody,
-    TableRow,
-    TableCell,
-    Pagination,
+    Button,
     Dropdown,
     DropdownItem,
     DropdownMenu,
     DropdownTrigger,
-} from "@heroui/react";
-import { Button } from "@heroui/react";
+    Pagination,
+    Table,
+    TableBody,
+    TableCell,
+    TableColumn,
+    TableHeader,
+    TableRow,
+} from '@heroui/react';
+import { Head, Link, router } from '@inertiajs/react';
 
-import DefaultLayout from "@/layouts/default";
+import DefaultLayout from '@/layouts/default';
 
 interface Employee {
     uuid: string;
@@ -25,14 +25,14 @@ interface Employee {
 }
 
 enum role {
-    SPPG = "SPPG",
-    AKUNTAN = "AKUNTAN",
-    GIZI = "GIZI",
-    ASLAP = "ASLAP",
-    DISTRIBUTOR = "DISTRIBUTOR",
-    CUCI = "CUCI",
-    PERSIAPAN = "PERSIAPAN",
-    MASAK = "MASAK",
+    SPPG = 'SPPG',
+    AKUNTAN = 'AKUNTAN',
+    GIZI = 'GIZI',
+    ASLAP = 'ASLAP',
+    DISTRIBUTOR = 'DISTRIBUTOR',
+    CUCI = 'CUCI',
+    PERSIAPAN = 'PERSIAPAN',
+    MASAK = 'MASAK',
 }
 
 interface Props {
@@ -54,7 +54,7 @@ export default function Index({ employees }: Props) {
         const newPerPage = Number(key);
 
         router.get(
-            route("employees.index"),
+            route('employees.index'),
             { perPage: newPerPage, page: 1 },
             { preserveState: true },
         );
@@ -62,7 +62,7 @@ export default function Index({ employees }: Props) {
 
     const handlePageChange = (page: number) => {
         router.get(
-            route("employees.index"),
+            route('employees.index'),
             { page, perPage: currentPerPage },
             { preserveState: true },
         );
@@ -95,7 +95,7 @@ export default function Index({ employees }: Props) {
                 {/* Header */}
                 <div className="flex items-center justify-between mb-6">
                     <h1 className="text-2xl font-bold">Employee List</h1>
-                    <Link href={route("employees.create")}>
+                    <Link href={route('employees.create')}>
                         <Button color="primary" variant="shadow">
                             + Add Employee
                         </Button>
@@ -126,7 +126,7 @@ export default function Index({ employees }: Props) {
                                     <div className="flex flex-wrap gap-2">
                                         <Link
                                             href={route(
-                                                "employees.edit",
+                                                'employees.edit',
                                                 employee.uuid,
                                             )}
                                         >
@@ -141,7 +141,7 @@ export default function Index({ employees }: Props) {
                                         <Link
                                             as="button"
                                             href={route(
-                                                "employees.destroy",
+                                                'employees.destroy',
                                                 employee.uuid,
                                             )}
                                             method="delete"
